@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports
+              http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="EquipmentInventoryReport" pageWidth="595" pageHeight="842"
+              columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20"
+              uuid="c3d4e5f6-7890-1234-abcd-ef1234567890">
+    
+    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+    
+    <parameter name="currentYear" class="java.lang.String">
+        <defaultValueExpression><![CDATA["2024"]]></defaultValueExpression>
+    </parameter>
+    
+    <parameter name="generatedDate" class="java.lang.String">
+        <defaultValueExpression><![CDATA[new java.util.Date().toString()]]></defaultValueExpression>
+    </parameter>
+    
+    <queryString>
+        <![CDATA[
+        SELECT e.EquipmentID, e.EquipmentName, e.Condition, e.PurchaseDate,
+               COUNT(u.EquipmentID) AS TimesUsed
+        FROM [Equipment Table] e
+        LEFT JOIN [EquipmentUsageReport Table] u ON e.EquipmentID = u.EquipmentID
+        AND YEAR(u.UsageDate) = YEAR(DATE())
+        GROUP BY e.EquipmentID, e.EquipmentName, e.Condition, e.PurchaseDate
+        ORDER BY e.EquipmentName
+        ]]>
+    </queryString>
+    
+    <field name="EquipmentID" class="java.lang.Integer"/>
+    <field name="EquipmentName" class="java.lang.String"/>
+    <field name="Condition" class="java.lang.String"/>
+    <field name="PurchaseDate" class="java.lang.String"/>
+    <field name="TimesUsed" class="java.lang.Integer"/>
+    
+    <title>
+        <band height="100" splitType="Stretch">
+            <textField>
+                <reportElement x="0" y="0" width="555" height="30" uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567890"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="18" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["EQUIPMENT INVENTORY REPORT"]]></textFieldExpression>
+            </textField>
+            
+            <textField>
+                <reportElement x="0" y="35" width="555" height="20" uuid="b2c3d4e5-6789-0123-abcd-ef2345678901"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="12"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Complete Equipment Overview with Current Year Usage Statistics"]]></textFieldExpression>
+            </textField>
+            
+            <textField>
+                <reportElement x="0" y="60" width="555" height="20" uuid="c3d4e5f6-7890-1234-bcde-f34567890123"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Current Year: " + $P{currentYear}]]></textFieldExpression>
+            </textField>
+            
+            <textField>
+                <reportElement x="0" y="80" width="555" height="20" uuid="d4e5f6a7-8901-2345-cdef-f45678901234"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Generated on: " + $P{generatedDate}]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+    
+    <columnHeader>
+        <band height="40" splitType="Stretch">
+            <staticText>
+                <reportElement x="0" y="0" width="50" height="40" uuid="e5f6a7b8-9012-3456-defa-f56789012345"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[ID]]></text>
+            </staticText>
+            
+            <staticText>
+                <reportElement x="50" y="0" width="150" height="40" uuid="f6a7b8c9-0123-4567-efab-f67890123456"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Equipment Name]]></text>
+            </staticText>
+            
+            <staticText>
+                <reportElement x="200" y="0" width="80" height="40" uuid="a7b8c9d0-1234-5678-efab-f78901234567"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Condition]]></text>
+            </staticText>
+            
+            <staticText>
+                <reportElement x="280" y="0" width="100" height="40" uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567890"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Purchase Date]]></text>
+            </staticText>
+            
+            <staticText>
+                <reportElement x="380" y="0" width="80" height="40" uuid="b2c3d4e5-6789-0123-abcd-ef2345678901"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Times Used]]></text>
+            </staticText>
+            
+            <staticText>
+                <reportElement x="460" y="0" width="95" height="40" uuid="c3d4e5f6-7890-1234-bcde-f34567890123"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Status]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+    
+    <detail>
+        <band height="25" splitType="Stretch">
+            <textField>
+                <reportElement x="0" y="0" width="50" height="25" uuid="8de632b0-be6b-4eb9-bd41-a12d01914219"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{EquipmentID}]]></textFieldExpression>
+            </textField>
+            
+            <textField>
+                <reportElement x="50" y="0" width="150" height="25" uuid="46e95bfd-0ba7-4e64-800c-631d9cbee412"/>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{EquipmentName}]]></textFieldExpression>
+            </textField>
+            
+            <textField>
+                <reportElement x="200" y="0" width="80" height="25" uuid="f40148a0-f677-4dd3-97fa-80ce7ca53f29"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{Condition}]]></textFieldExpression>
+            </textField>
+            
+            <textField>
+                <reportElement x="280" y="0" width="100" height="25" uuid="f7b1928b-dd1f-4faf-8029-95ef39d3be5e"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{PurchaseDate}]]></textFieldExpression>
+            </textField>
+            
+            <textField>
+                <reportElement x="380" y="0" width="80" height="25" uuid="6d10cdd4-a8b2-4e90-8114-7f367b5360c2"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{TimesUsed}]]></textFieldExpression>
+            </textField>
+            
+            <textField>
+                <reportElement x="460" y="0" width="95" height="25" uuid="b7e4a172-d7f4-4f78-a7bb-012271244bb5"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[
+                    $F{TimesUsed} == 0 ? "Unused" :
+                    $F{TimesUsed} < 5 ? "Low Usage" :
+                    $F{TimesUsed} < 15 ? "Medium Usage" : "High Usage"
+                ]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+    
+    <summary>
+        <band height="80" splitType="Stretch">
+            <!-- Summary statistics -->
+            <textField>
+                <reportElement x="0" y="0" width="555" height="20" uuid="e74220cd-84c8-4771-9179-1955dcdeb11c"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="12" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Total Equipment Items: " + $V{REPORT_COUNT}]]></textFieldExpression>
+            </textField>
+            
+            <textField>
+                <reportElement x="0" y="25" width="555" height="20" uuid="712deb12-f8b7-4346-9dd0-e70c3e27db2f"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Equipment Usage Summary for " + $P{currentYear}]]></textFieldExpression>
+            </textField>
+            
+            <textField>
+                <reportElement x="0" y="50" width="555" height="20" uuid="3fd63bc9-a087-4fbd-83a7-8ea6fe2b50e2"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="9" isItalic="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Note: Usage counts show how many times each piece of equipment was used in the current year"]]></textFieldExpression>
+            </textField>
+        </band>
+    </summary>
+</jasperReport>

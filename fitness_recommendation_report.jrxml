@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports
+              http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="FitnessRecommendationReport" pageWidth="595" pageHeight="842"
+              columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20"
+              uuid="b2c3d4e5-6789-0123-abcd-ef2345678901">
+    
+    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+    
+    <parameter name="classType" class="java.lang.String">
+        <defaultValueExpression><![CDATA["Yoga"]]></defaultValueExpression>
+    </parameter>
+    
+    <parameter name="startDate" class="java.lang.String">
+        <defaultValueExpression><![CDATA["2024-01-22"]]></defaultValueExpression>
+    </parameter>
+    
+    <parameter name="endDate" class="java.lang.String">
+        <defaultValueExpression><![CDATA["2024-01-28"]]></defaultValueExpression>
+    </parameter>
+    
+    <queryString>
+        <![CDATA[
+        SELECT C.ClassID, C.className, C.instructorName, C.scedualDate,
+               C.startDate, C.endDate, C.maxnumber,
+               PD.classtype, PD.fromage, PD.toage, PD.guidence,
+               P.StartTime, P.duration, P.currentStatus, P.PlanID,
+               I.FirstName, I.LastName, I.Phone, I.Email, I.Specialization
+        FROM ClassTable C
+        INNER JOIN PDTable PD ON C.pdID = PD.pdID
+        INNER JOIN ClassesInPlan CP ON C.ClassID = CP.ClassID
+        INNER JOIN PlanTable P ON CP.PlanID = P.PlanID
+        INNER JOIN [Instructor Table] I ON P.InstructorID = I.InstructorID
+        WHERE PD.classtype = ?
+        AND C.scedualDate BETWEEN ? AND ?
+        ORDER BY P.StartTime, C.scedualDate
+        ]]>
+    </queryString>
+    
+    <field name="ClassID" class="java.lang.Integer"/>
+    <field name="className" class="java.lang.String"/>
+    <field name="instructorName" class="java.lang.String"/>
+    <field name="scedualDate" class="java.lang.String"/>
+    <field name="startDate" class="java.lang.String"/>
+    <field name="endDate" class="java.lang.String"/>
+    <field name="maxnumber" class="java.lang.Integer"/>
+    <field name="classtype" class="java.lang.String"/>
+    <field name="fromage" class="java.lang.Integer"/>
+    <field name="toage" class="java.lang.Integer"/>
+    <field name="guidence" class="java.lang.String"/>
+    <field name="StartTime" class="java.lang.String"/>
+    <field name="duration" class="java.lang.Integer"/>
+    <field name="currentStatus" class="java.lang.String"/>
+    <field name="PlanID" class="java.lang.Integer"/>
+    <field name="FirstName" class="java.lang.String"/>
+    <field name="LastName" class="java.lang.String"/>
+    <field name="Phone" class="java.lang.String"/>
+    <field name="Email" class="java.lang.String"/>
+    <field name="Specialization" class="java.lang.String"/>
+    
+    <title>
+        <band height="100" splitType="Stretch">
+            <textField>
+                <reportElement x="0" y="0" width="555" height="30" uuid="c3d4e5f6-7890-1234-bcde-f34567890123"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="18" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["FITNESS RECOMMENDATION REPORT"]]></textFieldExpression>
+            </textField>
+            
+            <textField>
+                <reportElement x="0" y="35" width="555" height="20" uuid="d4e5f6a7-8901-2345-cdef-f45678901234"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="12"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Classes for " + $P{classType} + " - Next Week Schedule"]]></textFieldExpression>
+            </textField>
+            
+            <textField>
+                <reportElement x="0" y="60" width="555" height="20" uuid="e5f6a7b8-9012-3456-defa-f56789012345"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Period: " + $P{startDate} + " to " + $P{endDate}]]></textFieldExpression>
+            </textField>
+            
+            <textField>
+                <reportElement x="0" y="80" width="555" height="20" uuid="f6a7b8c9-0123-4567-efab-f67890123456"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Generated on: " + new java.util.Date()]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+    
+    <columnHeader>
+        <band height="60" splitType="Stretch">
+            <staticText>
+                <reportElement x="0" y="0" width="50" height="30" uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567890"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Class ID]]></text>
+            </staticText>
+            
+            <staticText>
+                <reportElement x="50" y="0" width="100" height="30" uuid="b2c3d4e5-6789-0123-abcd-ef2345678901"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Class Name]]></text>
+            </staticText>
+            
+            <staticText>
+                <reportElement x="150" y="0" width="80" height="30" uuid="7d43c01f-1444-45b5-b4f5-d2f1024653bf"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Date]]></text>
+            </staticText>
+            
+            <staticText>
+                <reportElement x="230" y="0" width="80" height="30" uuid="2d0c2c87-18d6-48b5-ac38-708729d47f85"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Start Time]]></text>
+            </staticText>
+            
+            <staticText>
+                <reportElement x="310" y="0" width="80" height="30" uuid="6ad149ad-e747-483e-8a01-7bde5e8ad906"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Duration]]></text>
+            </staticText>
+            
+            <staticText>
+                <reportElement x="390" y="0" width="80" height="30" uuid="c20680ee-1d39-4de2-abdb-ae4a1f33bbd6"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Plan]]></text>
+            </staticText>
+            
+            <staticText>
+                <reportElement x="470" y="0" width="85" height="30" uuid="8e7b6a03-cc0e-4142-994a-9629283f84e7"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Instructor]]></text>
+            </staticText>
+            
+            <!-- Second row of headers -->
+            <staticText>
+                <reportElement x="0" y="30" width="555" height="30" uuid="4868f690-09e1-4552-ad24-5cdb3d25e7ba"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="8" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Class Details: Age Range, Guidance, Max Capacity, Status]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+    
+    <detail>
+        <band height="80" splitType="Stretch">
+            <!-- First row: Main class information -->
+            <textField>
+                <reportElement x="0" y="0" width="50" height="20" uuid="4032dd79-9b00-4bed-9280-fe77a0321f1b"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{ClassID}]]></textFieldExpression>
+            </textField>
+            
+            <textField>
+                <reportElement x="50" y="0" width="100" height="20" uuid="ad66dbf8-14ff-4dbf-8e5d-c1832ffc3224"/>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{className}]]></textFieldExpression>
+            </textField>
+            
+            <textField>
+                <reportElement x="150" y="0" width="80" height="20" uuid="7f8f4f1b-8175-4ade-a805-0adeff249357"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{scedualDate}]]></textFieldExpression>
+            </textField>
+            
+            <textField>
+                <reportElement x="230" y="0" width="80" height="20" uuid="5fe0bd72-7a17-459b-a7fd-c3f3ec9b57ba"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{StartTime}]]></textFieldExpression>
+            </textField>
+            
+            <textField>
+                <reportElement x="310" y="0" width="80" height="20" uuid="6dfc974e-0330-43d1-8fe5-24ccd91a5f2a"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{duration} + " min"]]></textFieldExpression>
+            </textField>
+            
+            <textField>
+                <reportElement x="390" y="0" width="80" height="20" uuid="5d102e20-6ec1-4703-afc6-3e9feffd6a83"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Plan " + $F{PlanID}]]></textFieldExpression>
+            </textField>
+            
+            <textField>
+                <reportElement x="470" y="0" width="85" height="20" uuid="fdc2f53a-8b46-48bf-89cd-943ec261b561"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{FirstName} + " " + $F{LastName}]]></textFieldExpression>
+            </textField>
+            
+            <!-- Second row: Class details -->
+            <textField>
+                <reportElement x="0" y="25" width="555" height="20" uuid="b9739e94-1bbe-4238-a69a-56541a2f9485"/>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Age: " + $F{fromage} + "-" + $F{toage} + " | Guidance: " + $F{guidence} + " | Max Capacity: " + $F{maxnumber} + " | Status: " + $F{currentStatus}]]></textFieldExpression>
+            </textField>
+            
+            <!-- Third row: Instructor details -->
+            <textField>
+                <reportElement x="0" y="45" width="555" height="20" uuid="8d52fca8-22a1-407b-9934-41c6c2bd61aa"/>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Instructor: " + $F{FirstName} + " " + $F{LastName} + " | Phone: " + $F{Phone} + " | Email: " + $F{Email} + " | Specialization: " + $F{Specialization}]]></textFieldExpression>
+            </textField>
+            
+            <!-- Fourth row: Class times -->
+            <textField>
+                <reportElement x="0" y="65" width="555" height="15" uuid="f5cfa58f-2851-4568-bc87-8408365a6f15"/>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font size="8"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Class Time: " + $F{startDate} + " to " + $F{endDate}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+    
+    <summary>
+        <band height="50" splitType="Stretch">
+            <textField>
+                <reportElement x="0" y="20" width="555" height="20" uuid="70159a7b-bb1d-4641-b0a8-bd7b9f382b2c"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="12" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Total " + $P{classType} + " Classes Found: " + $V{REPORT_COUNT}]]></textFieldExpression>
+            </textField>
+        </band>
+    </summary>
+</jasperReport>

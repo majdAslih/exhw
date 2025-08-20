@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports
+              http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="UnregisteredClassReport" pageWidth="595" pageHeight="842"
+              columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20"
+              uuid="a1b2c3d4-e5f6-7890-abcd-ef1234567890">
+    
+    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+    
+    <parameter name="startDate" class="java.lang.String">
+        <defaultValueExpression><![CDATA["2024-01-01"]]></defaultValueExpression>
+    </parameter>
+    
+    <parameter name="endDate" class="java.lang.String">
+        <defaultValueExpression><![CDATA["2024-12-31"]]></defaultValueExpression>
+    </parameter>
+    
+    <queryString>
+        <![CDATA[
+        SELECT c.CustomerID, c.CustomerFirstName, c.CustomerLastName, c.CustomerEmail, c.CustomerPhone,
+               c.CustomerAge, c.CustomerGender, c.CustomerAddress,
+               COUNT(ca.CustomerID) as ClassesAttended
+        FROM CustomerTable c
+        INNER JOIN CustomerPlans cp ON c.CustomerID = cp.CustomerID
+        LEFT JOIN [CustomerAttendance Table] ca ON c.CustomerID = ca.CustomerID
+        WHERE cp.StartDate BETWEEN ? AND ?
+        GROUP BY c.CustomerID, c.CustomerFirstName, c.CustomerLastName, c.CustomerEmail, 
+                 c.CustomerPhone, c.CustomerAge, c.CustomerGender, c.CustomerAddress
+        HAVING COUNT(ca.CustomerID) < 5
+        ORDER BY c.CustomerLastName, c.CustomerFirstName
+        ]]>
+    </queryString>
+    
+    <field name="CustomerID" class="java.lang.Integer"/>
+    <field name="CustomerFirstName" class="java.lang.String"/>
+    <field name="CustomerLastName" class="java.lang.String"/>
+    <field name="CustomerEmail" class="java.lang.String"/>
+    <field name="CustomerPhone" class="java.lang.String"/>
+    <field name="CustomerAge" class="java.lang.Integer"/>
+    <field name="CustomerGender" class="java.lang.String"/>
+    <field name="CustomerAddress" class="java.lang.String"/>
+    <field name="ClassesAttended" class="java.lang.Integer"/>
+    
+    <title>
+        <band height="100" splitType="Stretch">
+            <textField>
+                <reportElement x="0" y="0" width="555" height="30" uuid="b2c3d4e5-6789-0123-abcd-ef2345678901"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="18" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["UNREGISTERED CLASS REPORT"]]></textFieldExpression>
+            </textField>
+            
+            <textField>
+                <reportElement x="0" y="35" width="555" height="20" uuid="c3d4e5f6-7890-1234-bcde-f34567890123"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="12"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Customers with Less Than 5 Classes Attended"]]></textFieldExpression>
+            </textField>
+            
+            <textField>
+                <reportElement x="0" y="60" width="555" height="20" uuid="d4e5f6a7-8901-2345-cdef-f45678901234"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Period: " + $P{startDate} + " to " + $P{endDate}]]></textFieldExpression>
+            </textField>
+            
+            <textField>
+                <reportElement x="0" y="80" width="555" height="20" uuid="e5f6a7b8-9012-3456-defa-f56789012345"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="10"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Generated on: " + new java.util.Date()]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+    
+    <columnHeader>
+        <band height="40" splitType="Stretch">
+            <staticText>
+                <reportElement x="0" y="0" width="50" height="40" uuid="f6a7b8c9-0123-4567-efab-f67890123456"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[ID]]></text>
+            </staticText>
+            
+            <staticText>
+                <reportElement x="50" y="0" width="80" height="40" uuid="a7b8c9d0-1234-5678-efab-f78901234567"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[First Name]]></text>
+            </staticText>
+            
+            <staticText>
+                <reportElement x="130" y="0" width="80" height="40" uuid="b8c9d0e1-2345-6789-efab-f89012345678"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Last Name]]></text>
+            </staticText>
+            
+            <staticText>
+                <reportElement x="210" y="0" width="120" height="40" uuid="c9d0e1f2-3456-7890-efab-f90123456789"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Email]]></text>
+            </staticText>
+            
+            <staticText>
+                <reportElement x="330" y="0" width="80" height="40" uuid="f4e62acd-4593-4e53-acfa-9fdabb2b7c02"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Phone]]></text>
+            </staticText>
+            
+            <staticText>
+                <reportElement x="410" y="0" width="50" height="40" uuid="a9cd4762-7024-42dd-b2d7-0d92e2b9e3f9"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Age]]></text>
+            </staticText>
+            
+            <staticText>
+                <reportElement x="460" y="0" width="50" height="40" uuid="c70c9d89-0378-46b7-a166-343682f7a1d7"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Gen]]></text>
+            </staticText>
+            
+            <staticText>
+                <reportElement x="510" y="0" width="45" height="40" uuid="49afaa47-ce2f-4b9e-93b2-612d05bc01d4"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="10" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Att]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+    
+    <detail>
+        <band height="25" splitType="Stretch">
+            <textField>
+                <reportElement x="0" y="0" width="50" height="25" uuid="7315db8f-82dc-4c2e-a795-c9f206085137"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{CustomerID}]]></textFieldExpression>
+            </textField>
+            
+            <textField>
+                <reportElement x="50" y="0" width="80" height="25" uuid="87a38ab2-0cd6-4a47-ad12-536464b6d4f1"/>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{CustomerFirstName}]]></textFieldExpression>
+            </textField>
+            
+            <textField>
+                <reportElement x="130" y="0" width="80" height="25" uuid="2b7d4ed7-862a-4931-acd1-a3b34cf32f37"/>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{CustomerLastName}]]></textFieldExpression>
+            </textField>
+            
+            <textField>
+                <reportElement x="210" y="0" width="120" height="25" uuid="2e06881f-c1e0-40d3-a53c-7b6885dccd0d"/>
+                <textElement textAlignment="Left" verticalAlignment="Middle">
+                    <font size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{CustomerEmail}]]></textFieldExpression>
+            </textField>
+            
+            <textField>
+                <reportElement x="330" y="0" width="80" height="25" uuid="668d3f49-b6e3-47cb-9518-0ed26e1bad45"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{CustomerPhone}]]></textFieldExpression>
+            </textField>
+            
+            <textField>
+                <reportElement x="410" y="0" width="50" height="25" uuid="5b6eac64-16b1-4f1d-a95d-843360e76c48"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{CustomerAge}]]></textFieldExpression>
+            </textField>
+            
+            <textField>
+                <reportElement x="460" y="0" width="50" height="25" uuid="9b641504-3550-4828-b1de-fd56e4f2c9d6"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{CustomerGender}]]></textFieldExpression>
+            </textField>
+            
+            <textField>
+                <reportElement x="510" y="0" width="45" height="25" uuid="c1ff123e-cf71-4cec-b485-21c4f34bb0e6"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{ClassesAttended}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+    
+    <summary>
+        <band height="50" splitType="Stretch">
+            <textField>
+                <reportElement x="0" y="20" width="555" height="20" uuid="df79e5cf-8086-4bc3-b7c2-fe46e01fdca3"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="12" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Total Customers with Less Than 5 Classes: " + $V{REPORT_COUNT}]]></textFieldExpression>
+            </textField>
+        </band>
+    </summary>
+</jasperReport>
